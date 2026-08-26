@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Beatify — Electronic Drum Kit</title>
+<title>Beatify — Neon Electronic Drum Kit</title>
 
 <style>
+/* =========================================================
+   BEATIFY — COLORFUL NEON ELECTRONIC DRUM KIT
+   ========================================================= */
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -14,27 +18,87 @@
     user-select:none;
 }
 
+:root{
+    --pink:#ff2bd6;
+    --cyan:#00eaff;
+    --purple:#8b5cf6;
+    --blue:#3b82f6;
+    --green:#39ff88;
+    --yellow:#ffe600;
+    --orange:#ff8a00;
+    --red:#ff315b;
+}
+
 body{
     min-height:100vh;
-    background:
-        radial-gradient(circle at 50% -10%,#272b3a,#0b0d12 55%);
-    color:#fff;
     font-family:Arial,Helvetica,sans-serif;
+    color:#fff;
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     padding:20px;
+    overflow-x:hidden;
+
+    background:
+        radial-gradient(circle at 10% 10%,#ff2bd622,transparent 25%),
+        radial-gradient(circle at 90% 10%,#00eaff22,transparent 25%),
+        radial-gradient(circle at 50% 100%,#8b5cf622,transparent 30%),
+        #06070d;
 }
 
+/* Animated neon background */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:-50%;
+    background:
+        conic-gradient(
+            from 0deg,
+            #ff2bd610,
+            #00eaff12,
+            #8b5cf615,
+            #39ff8810,
+            #ff2bd610
+        );
+    animation:rotateBg 18s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes rotateBg{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* APP */
+
 .app{
-    width:min(1200px,100%);
-    background:linear-gradient(145deg,#181b23,#0c0e13);
-    border:1px solid #303540;
-    border-radius:26px;
+    width:min(1250px,100%);
+    position:relative;
+    z-index:2;
+
     padding:24px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #151824ee,
+            #090b12f5
+        );
+
+    border:1px solid #ffffff18;
+
     box-shadow:
-        0 30px 80px rgba(0,0,0,.65),
-        inset 0 1px rgba(255,255,255,.04);
+        0 35px 100px #000,
+        0 0 60px #8b5cf615,
+        inset 0 1px #ffffff0c;
+
+    backdrop-filter:blur(18px);
 }
 
 /* HEADER */
@@ -43,98 +107,225 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:22px;
     gap:20px;
+    margin-bottom:24px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.logo-icon{
+    width:52px;
+    height:52px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    font-size:27px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple),
+            var(--cyan)
+        );
+
+    box-shadow:
+        0 0 25px #ff2bd655,
+        0 0 40px #00eaff22;
 }
 
 .logo{
-    font-size:30px;
+    font-size:31px;
     font-weight:900;
     letter-spacing:1px;
-}
 
-.logo span{
-    color:#ff315b;
+    background:
+        linear-gradient(
+            90deg,
+            #ff2bd6,
+            #8b5cf6,
+            #00eaff
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
 }
 
 .tagline{
-    color:#777;
-    font-size:11px;
-    margin-top:4px;
-    letter-spacing:2px;
+    margin-top:3px;
+    font-size:9px;
+    letter-spacing:3px;
+    color:#7e8496;
 }
 
 .display{
-    background:#050608;
-    border:1px solid #343944;
-    border-radius:10px;
-    padding:11px 18px;
-    color:#55ff9a;
-    font-family:monospace;
-    min-width:190px;
+    min-width:210px;
+
+    padding:12px 18px;
+
     text-align:center;
-    box-shadow:inset 0 0 15px #000;
+
+    font-family:monospace;
+    font-size:12px;
+
+    color:#39ff88;
+
+    border:1px solid #39ff8840;
+    border-radius:11px;
+
+    background:#020407;
+
+    box-shadow:
+        inset 0 0 20px #39ff8810,
+        0 0 18px #39ff8810;
+
+    text-shadow:0 0 10px #39ff88;
 }
 
 /* MAIN */
 
 .main{
     display:grid;
-    grid-template-columns:150px 1fr 150px;
+    grid-template-columns:155px 1fr 155px;
     gap:20px;
     align-items:center;
 }
 
-/* SIDE CONTROLS */
+/* SIDE PANELS */
 
 .side{
-    background:#11141a;
-    border:1px solid #292e38;
-    border-radius:18px;
     padding:17px 13px;
+
+    border-radius:19px;
+
+    background:
+        linear-gradient(
+            160deg,
+            #161923,
+            #0c0e15
+        );
+
+    border:1px solid #ffffff12;
+
+    box-shadow:
+        inset 0 0 25px #ffffff03,
+        0 12px 30px #0008;
 }
 
 .side h3{
     text-align:center;
-    color:#aaa;
-    font-size:11px;
-    letter-spacing:1.5px;
-    margin-bottom:18px;
+
+    color:#b7b9c5;
+
+    font-size:10px;
+    letter-spacing:2px;
+
+    margin-bottom:20px;
 }
 
 .knob-area{
-    margin-bottom:20px;
+    margin-bottom:22px;
     text-align:center;
 }
 
 .knob{
     width:100%;
     height:7px;
-    accent-color:#ff315b;
+
+    appearance:none;
+
+    background:#242735;
+    border-radius:10px;
+
+    outline:none;
+
     cursor:pointer;
+}
+
+.knob::-webkit-slider-thumb{
+    appearance:none;
+
+    width:15px;
+    height:15px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 10px var(--cyan),
+        0 0 20px var(--cyan);
+
+    cursor:pointer;
+}
+
+.knob::-moz-range-thumb{
+    width:15px;
+    height:15px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 10px var(--cyan),
+        0 0 20px var(--cyan);
+
+    cursor:pointer;
+}
+
+.value{
+    margin-bottom:7px;
+
+    color:#fff;
+
+    font-size:12px;
+    font-weight:bold;
+
+    text-shadow:0 0 8px #00eaff;
 }
 
 .knob-label{
     display:flex;
     justify-content:space-between;
+
     margin-top:7px;
-    font-size:9px;
-    color:#777;
+
+    color:#686d7c;
+
+    font-size:8px;
+    letter-spacing:1px;
 }
 
-.value{
-    color:#fff;
-    font-size:12px;
-    margin-bottom:6px;
-}
-
-/* DRUM SECTION */
+/* DRUM MACHINE */
 
 .pad-section{
-    background:#0b0d12;
-    border:1px solid #292e38;
-    border-radius:22px;
     padding:22px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0b0d15,
+            #07080d
+        );
+
+    border:1px solid #ffffff12;
+
+    box-shadow:
+        inset 0 0 35px #ffffff02,
+        0 15px 40px #0009;
 }
 
 .pad-grid{
@@ -143,89 +334,229 @@ body{
     gap:14px;
 }
 
+/* PADS */
+
 .pad{
+    --pad:#8b5cf6;
+
     min-height:120px;
-    border-radius:17px;
-    border:2px solid #363b46;
-    background:
-        radial-gradient(
-            circle at 35% 25%,
-            #383c47,
-            #15171d 65%
-        );
-
-    box-shadow:
-        inset 0 4px 10px rgba(255,255,255,.04),
-        0 8px 16px #000;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-
-    cursor:pointer;
-    transition:.08s;
 
     position:relative;
     overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:18px;
+
+    border:2px solid color-mix(
+        in srgb,
+        var(--pad) 45%,
+        #252832
+    );
+
+    background:
+        radial-gradient(
+            circle at 35% 25%,
+            #ffffff10,
+            transparent 35%
+        ),
+        linear-gradient(
+            145deg,
+            #20232e,
+            #101219
+        );
+
+    box-shadow:
+        inset 0 5px 15px #ffffff04,
+        0 8px 18px #000;
+
+    cursor:pointer;
+
+    transition:
+        transform .1s,
+        box-shadow .15s,
+        border-color .15s,
+        background .15s;
+}
+
+.pad::before{
+    content:"";
+
+    position:absolute;
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:var(--pad);
+
+    opacity:.08;
+
+    filter:blur(25px);
+
+    transition:.2s;
 }
 
 .pad::after{
     content:"";
+
     position:absolute;
     inset:7px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,.035);
+
+    border-radius:13px;
+
+    border:1px solid #ffffff08;
+
     pointer-events:none;
 }
 
 .pad:hover{
-    border-color:#ff315b;
-    transform:translateY(-2px);
+    transform:translateY(-4px);
+
+    border-color:var(--pad);
+
+    box-shadow:
+        0 0 18px color-mix(
+            in srgb,
+            var(--pad) 40%,
+            transparent
+        ),
+        0 10px 22px #000;
+}
+
+.pad:hover::before{
+    opacity:.22;
+    transform:scale(1.3);
 }
 
 .pad.active{
-    transform:scale(.93);
+    transform:scale(.92);
 
     background:
         radial-gradient(
             circle,
-            #ff5475,
-            #a41636 70%
+            color-mix(
+                in srgb,
+                var(--pad) 80%,
+                white
+            ),
+            color-mix(
+                in srgb,
+                var(--pad) 60%,
+                #111
+            )
         );
 
-    border-color:#ff718b;
+    border-color:var(--pad);
 
     box-shadow:
-        0 0 28px rgba(255,49,91,.65),
-        inset 0 0 25px rgba(255,255,255,.15);
+        0 0 20px var(--pad),
+        0 0 50px color-mix(
+            in srgb,
+            var(--pad) 55%,
+            transparent
+        ),
+        inset 0 0 25px #fff4;
+}
+
+.pad.active::before{
+    opacity:.8;
+    transform:scale(2);
 }
 
 .key{
-    font-size:25px;
-    font-weight:900;
+    position:relative;
     z-index:2;
+
+    font-size:26px;
+    font-weight:900;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 10px var(--pad),
+        0 0 20px var(--pad);
 }
 
 .name{
-    font-size:10px;
-    color:#999;
-    margin-top:8px;
-    letter-spacing:1px;
+    position:relative;
     z-index:2;
+
+    margin-top:8px;
+
+    color:#9297a7;
+
+    font-size:9px;
+    letter-spacing:1.5px;
 }
 
 .pad.active .name{
     color:#fff;
 }
 
+/* INDIVIDUAL PAD COLORS */
+
+.pad:nth-child(1){
+    --pad:#ff315b;
+}
+
+.pad:nth-child(2){
+    --pad:#ff8a00;
+}
+
+.pad:nth-child(3){
+    --pad:#ffe600;
+}
+
+.pad:nth-child(4){
+    --pad:#39ff88;
+}
+
+.pad:nth-child(5){
+    --pad:#00eaff;
+}
+
+.pad:nth-child(6){
+    --pad:#3b82f6;
+}
+
+.pad:nth-child(7){
+    --pad:#8b5cf6;
+}
+
+.pad:nth-child(8){
+    --pad:#c026ff;
+}
+
+.pad:nth-child(9){
+    --pad:#ff2bd6;
+}
+
+.pad:nth-child(10){
+    --pad:#ff4f9a;
+}
+
+.pad:nth-child(11){
+    --pad:#00f5ff;
+}
+
+.pad:nth-child(12){
+    --pad:#7cff00;
+}
+
 /* MIXER */
 
 .mixer-title{
-    color:#777;
-    font-size:10px;
+    margin:19px 0 9px;
+
+    color:#777d8f;
+
+    font-size:9px;
     letter-spacing:2px;
-    margin:18px 0 9px;
 }
 
 .mixer{
@@ -235,69 +566,154 @@ body{
 }
 
 .channel{
-    background:#11141a;
-    border:1px solid #292e38;
-    border-radius:11px;
     padding:10px;
+
     text-align:center;
+
+    border-radius:12px;
+
+    background:#10131a;
+
+    border:1px solid #ffffff0c;
 }
 
 .channel span{
     display:block;
-    font-size:9px;
-    color:#888;
+
     margin-bottom:8px;
+
+    color:#777d8e;
+
+    font-size:8px;
+    letter-spacing:1px;
 }
 
 .channel input{
     width:100%;
+
+    accent-color:#ff2bd6;
+
+    cursor:pointer;
+}
+
+/* MIXER SLIDER COLORS */
+
+.channel:nth-child(1) input{
     accent-color:#ff315b;
+}
+
+.channel:nth-child(2) input{
+    accent-color:#ff8a00;
+}
+
+.channel:nth-child(3) input{
+    accent-color:#00eaff;
+}
+
+.channel:nth-child(4) input{
+    accent-color:#39ff88;
+}
+
+.channel:nth-child(5) input{
+    accent-color:#ff2bd6;
 }
 
 /* BUTTONS */
 
 .bottom{
-    margin-top:18px;
     display:flex;
     justify-content:center;
-    gap:10px;
     flex-wrap:wrap;
+    gap:10px;
+
+    margin-top:19px;
 }
 
 button{
-    background:#181b22;
+    position:relative;
+    overflow:hidden;
+
+    padding:11px 20px;
+
+    border-radius:10px;
+
+    border:1px solid #ffffff15;
+
+    background:#151821;
+
     color:#fff;
-    border:1px solid #343944;
-    padding:10px 19px;
-    border-radius:9px;
-    cursor:pointer;
+
     font-weight:bold;
+
+    cursor:pointer;
+
     transition:.15s;
 }
 
 button:hover{
-    background:#ff315b;
-    border-color:#ff315b;
-    box-shadow:0 0 18px rgba(255,49,91,.3);
+    transform:translateY(-2px);
+
+    border-color:#ff2bd6;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff2bd620,
+            #8b5cf620,
+            #00eaff20
+        );
+
+    box-shadow:
+        0 0 18px #ff2bd633;
 }
 
 button:active{
-    transform:scale(.95);
+    transform:scale(.94);
+}
+
+#demo{
+    border-color:#39ff8840;
+}
+
+#demo:hover{
+    border-color:#39ff88;
+    box-shadow:0 0 20px #39ff8844;
+}
+
+#stop{
+    border-color:#ff315b40;
+}
+
+#stop:hover{
+    border-color:#ff315b;
+    box-shadow:0 0 20px #ff315b44;
+}
+
+#reset{
+    border-color:#00eaff40;
+}
+
+#reset:hover{
+    border-color:#00eaff;
+    box-shadow:0 0 20px #00eaff44;
 }
 
 /* FOOTER */
 
 .footer{
-    text-align:center;
-    color:#555;
-    font-size:9px;
     margin-top:18px;
-    letter-spacing:1px;
+
+    text-align:center;
+
+    color:#555b6b;
+
+    font-size:8px;
+    letter-spacing:3px;
 }
 
-/* TABLET */
+/* RESPONSIVE */
 
-@media(max-width:900px){
+@media(max-width:950px){
 
     .main{
         grid-template-columns:1fr;
@@ -305,13 +721,16 @@ button:active{
 
     .side{
         display:grid;
-        grid-template-columns:repeat(3,1fr);
-        gap:12px;
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:14px;
     }
 
     .side h3{
         grid-column:1/-1;
-        margin-bottom:2px;
+        margin-bottom:0;
     }
 
     .knob-area{
@@ -319,17 +738,15 @@ button:active{
     }
 }
 
-/* MOBILE */
-
-@media(max-width:600px){
+@media(max-width:650px){
 
     body{
-        padding:10px;
+        padding:9px;
     }
 
     .app{
         padding:14px;
-        border-radius:18px;
+        border-radius:20px;
     }
 
     .top{
@@ -337,12 +754,13 @@ button:active{
         text-align:center;
     }
 
-    .logo{
-        font-size:26px;
+    .brand{
+        justify-content:center;
     }
 
     .display{
         width:100%;
+        min-width:0;
     }
 
     .pad-section{
@@ -355,7 +773,7 @@ button:active{
     }
 
     .pad{
-        min-height:100px;
+        min-height:105px;
     }
 
     .mixer{
@@ -363,7 +781,28 @@ button:active{
     }
 
     .side{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:380px){
+
+    .logo{
+        font-size:25px;
+    }
+
+    .logo-icon{
+        width:45px;
+        height:45px;
+        font-size:22px;
+    }
+
+    .pad{
+        min-height:95px;
+    }
+
+    .key{
+        font-size:22px;
     }
 }
 </style>
@@ -377,17 +816,30 @@ button:active{
 
     <div class="top">
 
-        <div>
-            <div class="logo">
-                🥁 Beat<span>ify</span>
+        <div class="brand">
+
+            <div class="logo-icon">
+                🥁
             </div>
 
-            <div class="tagline">
-                ELECTRONIC DRUM EXPERIENCE
+            <div>
+
+                <div class="logo">
+                    Beatify
+                </div>
+
+                <div class="tagline">
+                    NEON ELECTRONIC DRUM EXPERIENCE
+                </div>
+
             </div>
+
         </div>
 
-        <div class="display" id="display">
+        <div
+            class="display"
+            id="display"
+        >
             READY • 120 BPM
         </div>
 
@@ -402,11 +854,16 @@ button:active{
 
         <div class="side">
 
-            <h3>LEFT CHANNEL</h3>
+            <h3>
+                LEFT CHANNEL
+            </h3>
 
             <div class="knob-area">
 
-                <div class="value" id="kickVol">
+                <div
+                    class="value"
+                    id="kickVol"
+                >
                     80%
                 </div>
 
@@ -429,7 +886,10 @@ button:active{
 
             <div class="knob-area">
 
-                <div class="value" id="snareVol">
+                <div
+                    class="value"
+                    id="snareVol"
+                >
                     75%
                 </div>
 
@@ -452,7 +912,10 @@ button:active{
 
             <div class="knob-area">
 
-                <div class="value" id="bassVal">
+                <div
+                    class="value"
+                    id="bassVal"
+                >
                     50%
                 </div>
 
@@ -475,129 +938,129 @@ button:active{
         </div>
 
 
-        <!-- DRUM MACHINE -->
+        <!-- DRUM PADS -->
 
         <div class="pad-section">
 
             <div class="pad-grid">
 
-                <div class="pad"
-                     data-key="q"
-                     data-sound="kick">
-
+                <div
+                    class="pad"
+                    data-key="q"
+                    data-sound="kick"
+                >
                     <div class="key">Q</div>
                     <div class="name">KICK</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="w"
-                     data-sound="snare">
-
+                <div
+                    class="pad"
+                    data-key="w"
+                    data-sound="snare"
+                >
                     <div class="key">W</div>
                     <div class="name">SNARE</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="e"
-                     data-sound="hihat">
-
+                <div
+                    class="pad"
+                    data-key="e"
+                    data-sound="hihat"
+                >
                     <div class="key">E</div>
                     <div class="name">HI-HAT</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="r"
-                     data-sound="crash">
-
+                <div
+                    class="pad"
+                    data-key="r"
+                    data-sound="crash"
+                >
                     <div class="key">R</div>
                     <div class="name">CRASH</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="a"
-                     data-sound="tom1">
-
+                <div
+                    class="pad"
+                    data-key="a"
+                    data-sound="tom1"
+                >
                     <div class="key">A</div>
                     <div class="name">TOM 1</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="s"
-                     data-sound="tom2">
-
+                <div
+                    class="pad"
+                    data-key="s"
+                    data-sound="tom2"
+                >
                     <div class="key">S</div>
                     <div class="name">TOM 2</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="d"
-                     data-sound="tom3">
-
+                <div
+                    class="pad"
+                    data-key="d"
+                    data-sound="tom3"
+                >
                     <div class="key">D</div>
                     <div class="name">TOM 3</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="f"
-                     data-sound="ride">
-
+                <div
+                    class="pad"
+                    data-key="f"
+                    data-sound="ride"
+                >
                     <div class="key">F</div>
                     <div class="name">RIDE</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="z"
-                     data-sound="clap">
-
+                <div
+                    class="pad"
+                    data-key="z"
+                    data-sound="clap"
+                >
                     <div class="key">Z</div>
                     <div class="name">CLAP</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="x"
-                     data-sound="rim">
-
+                <div
+                    class="pad"
+                    data-key="x"
+                    data-sound="rim"
+                >
                     <div class="key">X</div>
                     <div class="name">RIM</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="c"
-                     data-sound="perc">
-
+                <div
+                    class="pad"
+                    data-key="c"
+                    data-sound="perc"
+                >
                     <div class="key">C</div>
                     <div class="name">PERC</div>
-
                 </div>
 
 
-                <div class="pad"
-                     data-key="v"
-                     data-sound="floor">
-
+                <div
+                    class="pad"
+                    data-key="v"
+                    data-sound="floor"
+                >
                     <div class="key">V</div>
                     <div class="name">FLOOR TOM</div>
-
                 </div>
 
             </div>
@@ -613,56 +1076,70 @@ button:active{
 
                 <div class="channel">
                     <span>KICK</span>
+
                     <input
                         class="mix"
                         data-type="kick"
                         type="range"
                         min="0"
                         max="100"
-                        value="80">
+                        value="80"
+                    >
                 </div>
+
 
                 <div class="channel">
                     <span>SNARE</span>
+
                     <input
                         class="mix"
                         data-type="snare"
                         type="range"
                         min="0"
                         max="100"
-                        value="75">
+                        value="75"
+                    >
                 </div>
+
 
                 <div class="channel">
                     <span>TOMS</span>
+
                     <input
                         class="mix"
                         data-type="tom1"
                         type="range"
                         min="0"
                         max="100"
-                        value="70">
+                        value="70"
+                    >
                 </div>
+
 
                 <div class="channel">
                     <span>CYMBAL</span>
+
                     <input
                         class="mix"
                         data-type="crash"
                         type="range"
                         min="0"
                         max="100"
-                        value="65">
+                        value="65"
+                    >
                 </div>
+
 
                 <div class="channel">
                     <span>MASTER</span>
+
                     <input
                         id="master"
                         type="range"
                         min="0"
                         max="100"
-                        value="80">
+                        value="80"
+                    >
                 </div>
 
             </div>
@@ -674,11 +1151,17 @@ button:active{
 
         <div class="side">
 
-            <h3>RIGHT CHANNEL</h3>
+            <h3>
+                RIGHT CHANNEL
+            </h3>
+
 
             <div class="knob-area">
 
-                <div class="value" id="hatVol">
+                <div
+                    class="value"
+                    id="hatVol"
+                >
                     70%
                 </div>
 
@@ -701,7 +1184,10 @@ button:active{
 
             <div class="knob-area">
 
-                <div class="value" id="trebleVal">
+                <div
+                    class="value"
+                    id="trebleVal"
+                >
                     50%
                 </div>
 
@@ -724,7 +1210,10 @@ button:active{
 
             <div class="knob-area">
 
-                <div class="value" id="masterVal">
+                <div
+                    class="value"
+                    id="masterVal"
+                >
                     80%
                 </div>
 
@@ -749,7 +1238,7 @@ button:active{
     </div>
 
 
-    <!-- BUTTONS -->
+    <!-- CONTROLS -->
 
     <div class="bottom">
 
@@ -777,77 +1266,93 @@ button:active{
 
 <script>
 
-let audio;
-let masterGain;
-let bassFilter;
-let trebleFilter;
+/* =========================================================
+   BEATIFY AUDIO ENGINE
+   ========================================================= */
 
-let demoTimer=null;
-let step=0;
+let audio = null;
+let masterGain = null;
+let bassFilter = null;
+let trebleFilter = null;
+
+let demoTimer = null;
+let step = 0;
 
 
-/* VOLUME SETTINGS */
+/* DEFAULT VOLUMES */
 
-const volumes={
+const volumes = {
 
-    kick:.80,
-    snare:.75,
-    hihat:.70,
+    kick: .80,
+    snare: .75,
+    hihat: .70,
 
-    tom1:.70,
-    tom2:.70,
-    tom3:.70,
-    floor:.70,
+    tom1: .70,
+    tom2: .70,
+    tom3: .70,
+    floor: .70,
 
-    crash:.65,
-    ride:.65,
+    crash: .65,
+    ride: .65,
 
-    clap:.70,
-    rim:.70,
-    perc:.70
+    clap: .70,
+    rim: .70,
+    perc: .70
 
 };
 
 
-/* START AUDIO */
+/* CREATE AUDIO */
 
 function startAudio(){
 
     if(!audio){
 
-        audio=new(
+        audio = new (
             window.AudioContext ||
             window.webkitAudioContext
         )();
 
 
-        masterGain=audio.createGain();
-
-        bassFilter=audio.createBiquadFilter();
-
-        trebleFilter=audio.createBiquadFilter();
+        masterGain =
+            audio.createGain();
 
 
-        bassFilter.type="lowshelf";
-
-        bassFilter.frequency.value=180;
-
-
-        trebleFilter.type="highshelf";
-
-        trebleFilter.frequency.value=3500;
+        bassFilter =
+            audio.createBiquadFilter();
 
 
-        masterGain.gain.value=.8;
+        trebleFilter =
+            audio.createBiquadFilter();
+
+
+        bassFilter.type =
+            "lowshelf";
+
+        bassFilter.frequency.value =
+            180;
+
+
+        trebleFilter.type =
+            "highshelf";
+
+        trebleFilter.frequency.value =
+            3500;
+
+
+        masterGain.gain.value =
+            .8;
 
 
         bassFilter.connect(
             trebleFilter
         );
 
+
         trebleFilter.connect(
             masterGain
         );
+
 
         masterGain.connect(
             audio.destination
@@ -856,16 +1361,14 @@ function startAudio(){
     }
 
 
-    if(audio.state==="suspended"){
-
+    if(audio.state === "suspended"){
         audio.resume();
-
     }
 
 }
 
 
-/* OUTPUT */
+/* AUDIO OUTPUT */
 
 function output(node){
 
@@ -876,18 +1379,18 @@ function output(node){
 }
 
 
-/* NOISE GENERATOR */
+/* NOISE */
 
 function noise(duration=.2){
 
-    const length=
+    const length =
         Math.floor(
-            audio.sampleRate*
+            audio.sampleRate *
             duration
         );
 
 
-    const buffer=
+    const buffer =
         audio.createBuffer(
             1,
             length,
@@ -895,7 +1398,7 @@ function noise(duration=.2){
         );
 
 
-    const data=
+    const data =
         buffer.getChannelData(0);
 
 
@@ -905,17 +1408,18 @@ function noise(duration=.2){
         i++
     ){
 
-        data[i]=
+        data[i] =
             Math.random()*2-1;
 
     }
 
 
-    const source=
+    const source =
         audio.createBufferSource();
 
 
-    source.buffer=buffer;
+    source.buffer =
+        buffer;
 
 
     return source;
@@ -923,23 +1427,25 @@ function noise(duration=.2){
 }
 
 
-/* DRUM SOUND ENGINE */
+/* =========================================================
+   SYNTHESIZED DRUM SOUNDS
+   ========================================================= */
 
 function synth(type){
 
     startAudio();
 
 
-    const now=
+    const now =
         audio.currentTime;
 
 
-    const gain=
+    const gain =
         audio.createGain();
 
 
-    gain.gain.value=
-        volumes[type]*.8;
+    gain.gain.value =
+        volumes[type] * .8;
 
 
     output(gain);
@@ -947,13 +1453,14 @@ function synth(type){
 
     /* KICK */
 
-    if(type==="kick"){
+    if(type === "kick"){
 
-        const osc=
+        const osc =
             audio.createOscillator();
 
 
-        osc.type="sine";
+        osc.type =
+            "sine";
 
 
         osc.frequency.setValueAtTime(
@@ -964,7 +1471,7 @@ function synth(type){
 
         osc.frequency.exponentialRampToValueAtTime(
             42,
-            now+.35
+            now + .35
         );
 
 
@@ -976,7 +1483,7 @@ function synth(type){
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            now+.4
+            now + .4
         );
 
 
@@ -985,8 +1492,9 @@ function synth(type){
 
         osc.start(now);
 
+
         osc.stop(
-            now+.4
+            now + .4
         );
 
     }
@@ -994,19 +1502,22 @@ function synth(type){
 
     /* SNARE */
 
-    else if(type==="snare"){
+    else if(type === "snare"){
 
-        const n=
+        const n =
             noise(.22);
 
 
-        const filter=
+        const filter =
             audio.createBiquadFilter();
 
 
-        filter.type="highpass";
+        filter.type =
+            "highpass";
 
-        filter.frequency.value=1100;
+
+        filter.frequency.value =
+            1100;
 
 
         gain.gain.setValueAtTime(
@@ -1017,11 +1528,12 @@ function synth(type){
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            now+.22
+            now + .22
         );
 
 
         n.connect(filter);
+
 
         filter.connect(gain);
 
@@ -1033,19 +1545,22 @@ function synth(type){
 
     /* HI-HAT */
 
-    else if(type==="hihat"){
+    else if(type === "hihat"){
 
-        const n=
+        const n =
             noise(.08);
 
 
-        const filter=
+        const filter =
             audio.createBiquadFilter();
 
 
-        filter.type="highpass";
+        filter.type =
+            "highpass";
 
-        filter.frequency.value=5500;
+
+        filter.frequency.value =
+            5500;
 
 
         gain.gain.setValueAtTime(
@@ -1056,11 +1571,12 @@ function synth(type){
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            now+.08
+            now + .08
         );
 
 
         n.connect(filter);
+
 
         filter.connect(gain);
 
@@ -1073,27 +1589,30 @@ function synth(type){
     /* CRASH / RIDE */
 
     else if(
-        type==="crash" ||
-        type==="ride"
+        type === "crash" ||
+        type === "ride"
     ){
 
-        const duration=
-            type==="crash"
-            ?1.2
-            :.7;
+        const duration =
+            type === "crash"
+            ? 1.2
+            : .7;
 
 
-        const n=
+        const n =
             noise(duration);
 
 
-        const filter=
+        const filter =
             audio.createBiquadFilter();
 
 
-        filter.type="highpass";
+        filter.type =
+            "highpass";
 
-        filter.frequency.value=3000;
+
+        filter.frequency.value =
+            3000;
 
 
         gain.gain.setValueAtTime(
@@ -1104,11 +1623,12 @@ function synth(type){
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            now+duration
+            now + duration
         );
 
 
         n.connect(filter);
+
 
         filter.connect(gain);
 
@@ -1120,19 +1640,22 @@ function synth(type){
 
     /* CLAP */
 
-    else if(type==="clap"){
+    else if(type === "clap"){
 
-        const n=
+        const n =
             noise(.28);
 
 
-        const filter=
+        const filter =
             audio.createBiquadFilter();
 
 
-        filter.type="bandpass";
+        filter.type =
+            "bandpass";
 
-        filter.frequency.value=1700;
+
+        filter.frequency.value =
+            1700;
 
 
         gain.gain.setValueAtTime(
@@ -1143,11 +1666,12 @@ function synth(type){
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            now+.28
+            now + .28
         );
 
 
         n.connect(filter);
+
 
         filter.connect(gain);
 
@@ -1159,15 +1683,18 @@ function synth(type){
 
     /* RIM */
 
-    else if(type==="rim"){
+    else if(type === "rim"){
 
-        const osc=
+        const osc =
             audio.createOscillator();
 
 
-        osc.type="square";
+        osc.type =
+            "square";
 
-        osc.frequency.value=900;
+
+        osc.frequency.value =
+            900;
 
 
         gain.gain.setValueAtTime(
@@ -1178,7 +1705,7 @@ function synth(type){
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            now+.12
+            now + .12
         );
 
 
@@ -1187,8 +1714,9 @@ function synth(type){
 
         osc.start(now);
 
+
         osc.stop(
-            now+.12
+            now + .12
         );
 
     }
@@ -1198,7 +1726,7 @@ function synth(type){
 
     else{
 
-        const frequencies={
+        const frequencies = {
 
             tom1:220,
             tom2:170,
@@ -1209,15 +1737,16 @@ function synth(type){
         };
 
 
-        const frequency=
-            frequencies[type]||180;
+        const frequency =
+            frequencies[type] || 180;
 
 
-        const osc=
+        const osc =
             audio.createOscillator();
 
 
-        osc.type="sine";
+        osc.type =
+            "sine";
 
 
         osc.frequency.setValueAtTime(
@@ -1227,8 +1756,8 @@ function synth(type){
 
 
         osc.frequency.exponentialRampToValueAtTime(
-            frequency*.55,
-            now+.35
+            frequency * .55,
+            now + .35
         );
 
 
@@ -1240,7 +1769,7 @@ function synth(type){
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            now+.35
+            now + .35
         );
 
 
@@ -1249,8 +1778,9 @@ function synth(type){
 
         osc.start(now);
 
+
         osc.stop(
-            now+.35
+            now + .35
         );
 
     }
@@ -1258,7 +1788,9 @@ function synth(type){
 }
 
 
-/* PAD HIT */
+/* =========================================================
+   PAD INTERACTION
+   ========================================================= */
 
 function hit(pad){
 
@@ -1272,19 +1804,20 @@ function hit(pad){
     );
 
 
-    setTimeout(()=>{
-
-        pad.classList.remove(
-            "active"
-        );
-
-    },100);
+    setTimeout(
+        ()=>{
+            pad.classList.remove(
+                "active"
+            );
+        },
+        120
+    );
 
 
     document.getElementById(
         "display"
-    ).textContent=
-        "PLAYING • "+
+    ).textContent =
+        "PLAYING • " +
         pad.querySelector(
             ".name"
         ).textContent;
@@ -1292,52 +1825,56 @@ function hit(pad){
 }
 
 
-/* MOUSE / TOUCH */
+/* MOUSE + TOUCH */
 
 document
 .querySelectorAll(".pad")
-.forEach(pad=>{
+.forEach(
+    pad => {
 
-    pad.addEventListener(
-        "pointerdown",
-        ()=>{
-            hit(pad);
-        }
-    );
+        pad.addEventListener(
+            "pointerdown",
+            ()=>{
+                hit(pad);
+            }
+        );
 
-});
+    }
+);
 
 
 /* KEYBOARD */
 
 document.addEventListener(
     "keydown",
-    e=>{
+    event => {
 
-        if(e.repeat)return;
-
-
-        const key=
-            e.key.toLowerCase();
+        if(event.repeat){
+            return;
+        }
 
 
-        const pad=
+        const key =
+            event.key.toLowerCase();
+
+
+        const pad =
             document.querySelector(
                 `.pad[data-key="${key}"]`
             );
 
 
         if(pad){
-
             hit(pad);
-
         }
 
     }
 );
 
 
-/* VOLUME CONNECTION */
+/* =========================================================
+   INDIVIDUAL VOLUME CONTROLS
+   ========================================================= */
 
 function connectVolume(
     id,
@@ -1345,30 +1882,28 @@ function connectVolume(
     label
 ){
 
-    const el=
+    const element =
         document.getElementById(id);
 
 
-    el.addEventListener(
+    element.addEventListener(
         "input",
         ()=>{
 
-            volumes[type]=
-                el.value/100;
+            volumes[type] =
+                element.value / 100;
 
 
             document.getElementById(
                 label
-            ).textContent=
-                el.value+"%";
+            ).textContent =
+                element.value + "%";
 
         }
     );
 
 }
 
-
-/* INDIVIDUAL VOLUME */
 
 connectVolume(
     "kickVolume",
@@ -1391,90 +1926,94 @@ connectVolume(
 );
 
 
-/* BASS */
+/* =========================================================
+   BASS
+   ========================================================= */
 
 document
 .getElementById("bass")
 .addEventListener(
     "input",
-    e=>{
+    event => {
 
         startAudio();
 
 
-        bassFilter.gain.value=
-            (e.target.value-50)*.36;
+        bassFilter.gain.value =
+            (event.target.value - 50) * .36;
 
 
         document.getElementById(
             "bassVal"
-        ).textContent=
-            e.target.value+"%";
+        ).textContent =
+            event.target.value + "%";
 
     }
 );
 
 
-/* TREBLE */
+/* =========================================================
+   TREBLE
+   ========================================================= */
 
 document
 .getElementById("treble")
 .addEventListener(
     "input",
-    e=>{
+    event => {
 
         startAudio();
 
 
-        trebleFilter.gain.value=
-            (e.target.value-50)*.36;
+        trebleFilter.gain.value =
+            (event.target.value - 50) * .36;
 
 
         document.getElementById(
             "trebleVal"
-        ).textContent=
-            e.target.value+"%";
+        ).textContent =
+            event.target.value + "%";
 
     }
 );
 
 
-/* MASTER */
+/* =========================================================
+   MASTER VOLUME
+   ========================================================= */
 
 function setMaster(value){
 
     startAudio();
 
 
-    masterGain.gain.value=
-        value/100;
+    masterGain.gain.value =
+        value / 100;
 
 
     document.getElementById(
         "masterVal"
-    ).textContent=
-        value+"%";
+    ).textContent =
+        value + "%";
 
 }
 
-
-/* MASTER SLIDERS */
 
 document
 .getElementById("master")
 .addEventListener(
     "input",
-    e=>{
+    event => {
 
         setMaster(
-            e.target.value
+            event.target.value
         );
 
 
         document.getElementById(
             "masterSide"
-        ).value=
-            e.target.value;
+        ).value =
+            event.target.value;
 
     }
 );
@@ -1484,46 +2023,52 @@ document
 .getElementById("masterSide")
 .addEventListener(
     "input",
-    e=>{
+    event => {
 
         setMaster(
-            e.target.value
+            event.target.value
         );
 
 
         document.getElementById(
             "master"
-        ).value=
-            e.target.value;
+        ).value =
+            event.target.value;
 
     }
 );
 
 
-/* MIXER */
+/* =========================================================
+   MIXER
+   ========================================================= */
 
 document
 .querySelectorAll(".mix")
-.forEach(slider=>{
+.forEach(
+    slider => {
 
-    slider.addEventListener(
-        "input",
-        ()=>{
+        slider.addEventListener(
+            "input",
+            ()=>{
 
-            const type=
-                slider.dataset.type;
-
-
-            volumes[type]=
-                slider.value/100;
-
-        }
-    );
-
-});
+                const type =
+                    slider.dataset.type;
 
 
-/* RESET */
+                volumes[type] =
+                    slider.value / 100;
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
 
 document
 .getElementById("reset")
@@ -1531,102 +2076,108 @@ document
     "click",
     ()=>{
 
-        volumes.kick=.80;
-        volumes.snare=.75;
-        volumes.hihat=.70;
+        volumes.kick = .80;
+        volumes.snare = .75;
+        volumes.hihat = .70;
 
-        volumes.tom1=.70;
-        volumes.crash=.65;
+        volumes.tom1 = .70;
+        volumes.tom2 = .70;
+        volumes.tom3 = .70;
+
+        volumes.crash = .65;
+        volumes.ride = .65;
 
 
         document.getElementById(
             "kickVolume"
-        ).value=80;
+        ).value = 80;
 
 
         document.getElementById(
             "snareVolume"
-        ).value=75;
+        ).value = 75;
 
 
         document.getElementById(
             "hatVolume"
-        ).value=70;
+        ).value = 70;
 
 
         document.getElementById(
             "bass"
-        ).value=50;
+        ).value = 50;
 
 
         document.getElementById(
             "treble"
-        ).value=50;
+        ).value = 50;
 
 
         document.getElementById(
             "master"
-        ).value=80;
+        ).value = 80;
 
 
         document.getElementById(
             "masterSide"
-        ).value=80;
+        ).value = 80;
 
 
         document.getElementById(
             "kickVol"
-        ).textContent="80%";
+        ).textContent = "80%";
 
 
         document.getElementById(
             "snareVol"
-        ).textContent="75%";
+        ).textContent = "75%";
 
 
         document.getElementById(
             "hatVol"
-        ).textContent="70%";
+        ).textContent = "70%";
 
 
         document.getElementById(
             "bassVal"
-        ).textContent="50%";
+        ).textContent = "50%";
 
 
         document.getElementById(
             "trebleVal"
-        ).textContent="50%";
+        ).textContent = "50%";
 
 
         document.getElementById(
             "masterVal"
-        ).textContent="80%";
+        ).textContent = "80%";
 
 
         if(audio){
 
-            bassFilter.gain.value=0;
+            bassFilter.gain.value = 0;
 
-            trebleFilter.gain.value=0;
+            trebleFilter.gain.value = 0;
 
-            masterGain.gain.value=.8;
+            masterGain.gain.value = .8;
 
         }
 
 
         document.getElementById(
             "display"
-        ).textContent=
+        ).textContent =
             "READY • 120 BPM";
 
     }
 );
 
 
-/* DEMO BEAT */
+/* =========================================================
+   DEMO BEAT
+   ========================================================= */
 
-const pattern=[
+const pattern = [
 
     ["q","e"],
     ["w","e"],
@@ -1643,7 +2194,9 @@ const pattern=[
 
 function demoBeat(){
 
-    if(demoTimer)return;
+    if(demoTimer){
+        return;
+    }
 
 
     startAudio();
@@ -1651,34 +2204,32 @@ function demoBeat(){
 
     document.getElementById(
         "display"
-    ).textContent=
+    ).textContent =
         "DEMO BEAT • 120 BPM";
 
 
-    demoTimer=
+    demoTimer =
         setInterval(
             ()=>{
 
-                const keys=
+                const keys =
                     pattern[
-                        step%
+                        step %
                         pattern.length
                     ];
 
 
                 keys.forEach(
-                    key=>{
+                    key => {
 
-                        const pad=
+                        const pad =
                             document.querySelector(
                                 `.pad[data-key="${key}"]`
                             );
 
 
                         if(pad){
-
                             hit(pad);
-
                         }
 
                     }
@@ -1703,14 +2254,14 @@ function stopBeat(){
     );
 
 
-    demoTimer=null;
+    demoTimer = null;
 
-    step=0;
+    step = 0;
 
 
     document.getElementById(
         "display"
-    ).textContent=
+    ).textContent =
         "READY • 120 BPM";
 
 }
