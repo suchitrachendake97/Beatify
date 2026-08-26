@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Beatify — Electronic Drum Kit</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    user-select:none;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% -10%,#272b3a,#0b0d12 55%);
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.app{
+    width:min(1200px,100%);
+    background:linear-gradient(145deg,#181b23,#0c0e13);
+    border:1px solid #303540;
+    border-radius:26px;
+    padding:24px;
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.65),
+        inset 0 1px rgba(255,255,255,.04);
+}
+
+/* HEADER */
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+    gap:20px;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#ff315b;
+}
+
+.tagline{
+    color:#777;
+    font-size:11px;
+    margin-top:4px;
+    letter-spacing:2px;
+}
+
+.display{
+    background:#050608;
+    border:1px solid #343944;
+    border-radius:10px;
+    padding:11px 18px;
+    color:#55ff9a;
+    font-family:monospace;
+    min-width:190px;
+    text-align:center;
+    box-shadow:inset 0 0 15px #000;
+}
+
+/* MAIN */
+
+.main{
+    display:grid;
+    grid-template-columns:150px 1fr 150px;
+    gap:20px;
+    align-items:center;
+}
+
+/* SIDE CONTROLS */
+
+.side{
+    background:#11141a;
+    border:1px solid #292e38;
+    border-radius:18px;
+    padding:17px 13px;
+}
+
+.side h3{
+    text-align:center;
+    color:#aaa;
+    font-size:11px;
+    letter-spacing:1.5px;
+    margin-bottom:18px;
+}
+
+.knob-area{
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.knob{
+    width:100%;
+    height:7px;
+    accent-color:#ff315b;
+    cursor:pointer;
+}
+
+.knob-label{
+    display:flex;
+    justify-content:space-between;
+    margin-top:7px;
+    font-size:9px;
+    color:#777;
+}
+
+.value{
+    color:#fff;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+/* DRUM SECTION */
+
+.pad-section{
+    background:#0b0d12;
+    border:1px solid #292e38;
+    border-radius:22px;
+    padding:22px;
+}
+
+.pad-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.pad{
+    min-height:120px;
+    border-radius:17px;
+    border:2px solid #363b46;
+    background:
+        radial-gradient(
+            circle at 35% 25%,
+            #383c47,
+            #15171d 65%
+        );
+
+    box-shadow:
+        inset 0 4px 10px rgba(255,255,255,.04),
+        0 8px 16px #000;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    cursor:pointer;
+    transition:.08s;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.pad::after{
+    content:"";
+    position:absolute;
+    inset:7px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.035);
+    pointer-events:none;
+}
+
+.pad:hover{
+    border-color:#ff315b;
+    transform:translateY(-2px);
+}
+
+.pad.active{
+    transform:scale(.93);
+
+    background:
+        radial-gradient(
+            circle,
+            #ff5475,
+            #a41636 70%
+        );
+
+    border-color:#ff718b;
+
+    box-shadow:
+        0 0 28px rgba(255,49,91,.65),
+        inset 0 0 25px rgba(255,255,255,.15);
+}
+
+.key{
+    font-size:25px;
+    font-weight:900;
+    z-index:2;
+}
+
+.name{
+    font-size:10px;
+    color:#999;
+    margin-top:8px;
+    letter-spacing:1px;
+    z-index:2;
+}
+
+.pad.active .name{
+    color:#fff;
+}
+
+/* MIXER */
+
+.mixer-title{
+    color:#777;
+    font-size:10px;
+    letter-spacing:2px;
+    margin:18px 0 9px;
+}
+
+.mixer{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:9px;
+}
+
+.channel{
+    background:#11141a;
+    border:1px solid #292e38;
+    border-radius:11px;
+    padding:10px;
+    text-align:center;
+}
+
+.channel span{
+    display:block;
+    font-size:9px;
+    color:#888;
+    margin-bottom:8px;
+}
+
+.channel input{
+    width:100%;
+    accent-color:#ff315b;
+}
+
+/* BUTTONS */
+
+.bottom{
+    margin-top:18px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+button{
+    background:#181b22;
+    color:#fff;
+    border:1px solid #343944;
+    padding:10px 19px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.15s;
+}
+
+button:hover{
+    background:#ff315b;
+    border-color:#ff315b;
+    box-shadow:0 0 18px rgba(255,49,91,.3);
+}
+
+button:active{
+    transform:scale(.95);
+}
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    color:#555;
+    font-size:9px;
+    margin-top:18px;
+    letter-spacing:1px;
+}
+
+/* TABLET */
+
+@media(max-width:900px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .side{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:12px;
+    }
+
+    .side h3{
+        grid-column:1/-1;
+        margin-bottom:2px;
+    }
+
+    .knob-area{
+        margin-bottom:0;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    body{
+        padding:10px;
+    }
+
+    .app{
+        padding:14px;
+        border-radius:18px;
+    }
+
+    .top{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .logo{
+        font-size:26px;
+    }
+
+    .display{
+        width:100%;
+    }
+
+    .pad-section{
+        padding:12px;
+    }
+
+    .pad-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:9px;
+    }
+
+    .pad{
+        min-height:100px;
+    }
+
+    .mixer{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .side{
+        grid-template-columns:1fr 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+
+    <div class="top">
+
+        <div>
+            <div class="logo">
+                🥁 Beat<span>ify</span>
+            </div>
+
+            <div class="tagline">
+                ELECTRONIC DRUM EXPERIENCE
+            </div>
+        </div>
+
+        <div class="display" id="display">
+            READY • 120 BPM
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- LEFT CONTROLS -->
+
+        <div class="side">
+
+            <h3>LEFT CHANNEL</h3>
+
+            <div class="knob-area">
+
+                <div class="value" id="kickVol">
+                    80%
+                </div>
+
+                <input
+                    class="knob"
+                    id="kickVolume"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="80"
+                >
+
+                <div class="knob-label">
+                    <span>KICK</span>
+                    <span>VOL</span>
+                </div>
+
+            </div>
+
+
+            <div class="knob-area">
+
+                <div class="value" id="snareVol">
+                    75%
+                </div>
+
+                <input
+                    class="knob"
+                    id="snareVolume"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="75"
+                >
+
+                <div class="knob-label">
+                    <span>SNARE</span>
+                    <span>VOL</span>
+                </div>
+
+            </div>
+
+
+            <div class="knob-area">
+
+                <div class="value" id="bassVal">
+                    50%
+                </div>
+
+                <input
+                    class="knob"
+                    id="bass"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="50"
+                >
+
+                <div class="knob-label">
+                    <span>BASS</span>
+                    <span>EQ</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DRUM MACHINE -->
+
+        <div class="pad-section">
+
+            <div class="pad-grid">
+
+                <div class="pad"
+                     data-key="q"
+                     data-sound="kick">
+
+                    <div class="key">Q</div>
+                    <div class="name">KICK</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="w"
+                     data-sound="snare">
+
+                    <div class="key">W</div>
+                    <div class="name">SNARE</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="e"
+                     data-sound="hihat">
+
+                    <div class="key">E</div>
+                    <div class="name">HI-HAT</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="r"
+                     data-sound="crash">
+
+                    <div class="key">R</div>
+                    <div class="name">CRASH</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="a"
+                     data-sound="tom1">
+
+                    <div class="key">A</div>
+                    <div class="name">TOM 1</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="s"
+                     data-sound="tom2">
+
+                    <div class="key">S</div>
+                    <div class="name">TOM 2</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="d"
+                     data-sound="tom3">
+
+                    <div class="key">D</div>
+                    <div class="name">TOM 3</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="f"
+                     data-sound="ride">
+
+                    <div class="key">F</div>
+                    <div class="name">RIDE</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="z"
+                     data-sound="clap">
+
+                    <div class="key">Z</div>
+                    <div class="name">CLAP</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="x"
+                     data-sound="rim">
+
+                    <div class="key">X</div>
+                    <div class="name">RIM</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="c"
+                     data-sound="perc">
+
+                    <div class="key">C</div>
+                    <div class="name">PERC</div>
+
+                </div>
+
+
+                <div class="pad"
+                     data-key="v"
+                     data-sound="floor">
+
+                    <div class="key">V</div>
+                    <div class="name">FLOOR TOM</div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MIXER -->
+
+            <div class="mixer-title">
+                MIXER
+            </div>
+
+            <div class="mixer">
+
+                <div class="channel">
+                    <span>KICK</span>
+                    <input
+                        class="mix"
+                        data-type="kick"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="80">
+                </div>
+
+                <div class="channel">
+                    <span>SNARE</span>
+                    <input
+                        class="mix"
+                        data-type="snare"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="75">
+                </div>
+
+                <div class="channel">
+                    <span>TOMS</span>
+                    <input
+                        class="mix"
+                        data-type="tom1"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="70">
+                </div>
+
+                <div class="channel">
+                    <span>CYMBAL</span>
+                    <input
+                        class="mix"
+                        data-type="crash"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="65">
+                </div>
+
+                <div class="channel">
+                    <span>MASTER</span>
+                    <input
+                        id="master"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="80">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT CONTROLS -->
+
+        <div class="side">
+
+            <h3>RIGHT CHANNEL</h3>
+
+            <div class="knob-area">
+
+                <div class="value" id="hatVol">
+                    70%
+                </div>
+
+                <input
+                    class="knob"
+                    id="hatVolume"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="70"
+                >
+
+                <div class="knob-label">
+                    <span>HI-HAT</span>
+                    <span>VOL</span>
+                </div>
+
+            </div>
+
+
+            <div class="knob-area">
+
+                <div class="value" id="trebleVal">
+                    50%
+                </div>
+
+                <input
+                    class="knob"
+                    id="treble"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="50"
+                >
+
+                <div class="knob-label">
+                    <span>TREBLE</span>
+                    <span>EQ</span>
+                </div>
+
+            </div>
+
+
+            <div class="knob-area">
+
+                <div class="value" id="masterVal">
+                    80%
+                </div>
+
+                <input
+                    class="knob"
+                    id="masterSide"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="80"
+                >
+
+                <div class="knob-label">
+                    <span>MASTER</span>
+                    <span>VOL</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="bottom">
+
+        <button id="demo">
+            ▶ Demo Beat
+        </button>
+
+        <button id="stop">
+            ■ Stop
+        </button>
+
+        <button id="reset">
+            ↺ Reset Mixer
+        </button>
+
+    </div>
+
+
+    <div class="footer">
+        BEATIFY • PLAY • CREATE • ENJOY
+    </div>
+
+</div>
+
+
+<script>
+
+let audio;
+let masterGain;
+let bassFilter;
+let trebleFilter;
+
+let demoTimer=null;
+let step=0;
+
+
+/* VOLUME SETTINGS */
+
+const volumes={
+
+    kick:.80,
+    snare:.75,
+    hihat:.70,
+
+    tom1:.70,
+    tom2:.70,
+    tom3:.70,
+    floor:.70,
+
+    crash:.65,
+    ride:.65,
+
+    clap:.70,
+    rim:.70,
+    perc:.70
+
+};
+
+
+/* START AUDIO */
+
+function startAudio(){
+
+    if(!audio){
+
+        audio=new(
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+
+        masterGain=audio.createGain();
+
+        bassFilter=audio.createBiquadFilter();
+
+        trebleFilter=audio.createBiquadFilter();
+
+
+        bassFilter.type="lowshelf";
+
+        bassFilter.frequency.value=180;
+
+
+        trebleFilter.type="highshelf";
+
+        trebleFilter.frequency.value=3500;
+
+
+        masterGain.gain.value=.8;
+
+
+        bassFilter.connect(
+            trebleFilter
+        );
+
+        trebleFilter.connect(
+            masterGain
+        );
+
+        masterGain.connect(
+            audio.destination
+        );
+
+    }
+
+
+    if(audio.state==="suspended"){
+
+        audio.resume();
+
+    }
+
+}
+
+
+/* OUTPUT */
+
+function output(node){
+
+    node.connect(
+        bassFilter
+    );
+
+}
+
+
+/* NOISE GENERATOR */
+
+function noise(duration=.2){
+
+    const length=
+        Math.floor(
+            audio.sampleRate*
+            duration
+        );
+
+
+    const buffer=
+        audio.createBuffer(
+            1,
+            length,
+            audio.sampleRate
+        );
+
+
+    const data=
+        buffer.getChannelData(0);
+
+
+    for(
+        let i=0;
+        i<length;
+        i++
+    ){
+
+        data[i]=
+            Math.random()*2-1;
+
+    }
+
+
+    const source=
+        audio.createBufferSource();
+
+
+    source.buffer=buffer;
+
+
+    return source;
+
+}
+
+
+/* DRUM SOUND ENGINE */
+
+function synth(type){
+
+    startAudio();
+
+
+    const now=
+        audio.currentTime;
+
+
+    const gain=
+        audio.createGain();
+
+
+    gain.gain.value=
+        volumes[type]*.8;
+
+
+    output(gain);
+
+
+    /* KICK */
+
+    if(type==="kick"){
+
+        const osc=
+            audio.createOscillator();
+
+
+        osc.type="sine";
+
+
+        osc.frequency.setValueAtTime(
+            150,
+            now
+        );
+
+
+        osc.frequency.exponentialRampToValueAtTime(
+            42,
+            now+.35
+        );
+
+
+        gain.gain.setValueAtTime(
+            volumes[type],
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            now+.4
+        );
+
+
+        osc.connect(gain);
+
+
+        osc.start(now);
+
+        osc.stop(
+            now+.4
+        );
+
+    }
+
+
+    /* SNARE */
+
+    else if(type==="snare"){
+
+        const n=
+            noise(.22);
+
+
+        const filter=
+            audio.createBiquadFilter();
+
+
+        filter.type="highpass";
+
+        filter.frequency.value=1100;
+
+
+        gain.gain.setValueAtTime(
+            volumes[type],
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            now+.22
+        );
+
+
+        n.connect(filter);
+
+        filter.connect(gain);
+
+
+        n.start(now);
+
+    }
+
+
+    /* HI-HAT */
+
+    else if(type==="hihat"){
+
+        const n=
+            noise(.08);
+
+
+        const filter=
+            audio.createBiquadFilter();
+
+
+        filter.type="highpass";
+
+        filter.frequency.value=5500;
+
+
+        gain.gain.setValueAtTime(
+            volumes[type],
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            now+.08
+        );
+
+
+        n.connect(filter);
+
+        filter.connect(gain);
+
+
+        n.start(now);
+
+    }
+
+
+    /* CRASH / RIDE */
+
+    else if(
+        type==="crash" ||
+        type==="ride"
+    ){
+
+        const duration=
+            type==="crash"
+            ?1.2
+            :.7;
+
+
+        const n=
+            noise(duration);
+
+
+        const filter=
+            audio.createBiquadFilter();
+
+
+        filter.type="highpass";
+
+        filter.frequency.value=3000;
+
+
+        gain.gain.setValueAtTime(
+            volumes[type],
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            now+duration
+        );
+
+
+        n.connect(filter);
+
+        filter.connect(gain);
+
+
+        n.start(now);
+
+    }
+
+
+    /* CLAP */
+
+    else if(type==="clap"){
+
+        const n=
+            noise(.28);
+
+
+        const filter=
+            audio.createBiquadFilter();
+
+
+        filter.type="bandpass";
+
+        filter.frequency.value=1700;
+
+
+        gain.gain.setValueAtTime(
+            volumes[type],
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            now+.28
+        );
+
+
+        n.connect(filter);
+
+        filter.connect(gain);
+
+
+        n.start(now);
+
+    }
+
+
+    /* RIM */
+
+    else if(type==="rim"){
+
+        const osc=
+            audio.createOscillator();
+
+
+        osc.type="square";
+
+        osc.frequency.value=900;
+
+
+        gain.gain.setValueAtTime(
+            volumes[type],
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            now+.12
+        );
+
+
+        osc.connect(gain);
+
+
+        osc.start(now);
+
+        osc.stop(
+            now+.12
+        );
+
+    }
+
+
+    /* TOMS / PERCUSSION */
+
+    else{
+
+        const frequencies={
+
+            tom1:220,
+            tom2:170,
+            tom3:135,
+            floor:90,
+            perc:500
+
+        };
+
+
+        const frequency=
+            frequencies[type]||180;
+
+
+        const osc=
+            audio.createOscillator();
+
+
+        osc.type="sine";
+
+
+        osc.frequency.setValueAtTime(
+            frequency,
+            now
+        );
+
+
+        osc.frequency.exponentialRampToValueAtTime(
+            frequency*.55,
+            now+.35
+        );
+
+
+        gain.gain.setValueAtTime(
+            volumes[type],
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            now+.35
+        );
+
+
+        osc.connect(gain);
+
+
+        osc.start(now);
+
+        osc.stop(
+            now+.35
+        );
+
+    }
+
+}
+
+
+/* PAD HIT */
+
+function hit(pad){
+
+    synth(
+        pad.dataset.sound
+    );
+
+
+    pad.classList.add(
+        "active"
+    );
+
+
+    setTimeout(()=>{
+
+        pad.classList.remove(
+            "active"
+        );
+
+    },100);
+
+
+    document.getElementById(
+        "display"
+    ).textContent=
+        "PLAYING • "+
+        pad.querySelector(
+            ".name"
+        ).textContent;
+
+}
+
+
+/* MOUSE / TOUCH */
+
+document
+.querySelectorAll(".pad")
+.forEach(pad=>{
+
+    pad.addEventListener(
+        "pointerdown",
+        ()=>{
+            hit(pad);
+        }
+    );
+
+});
+
+
+/* KEYBOARD */
+
+document.addEventListener(
+    "keydown",
+    e=>{
+
+        if(e.repeat)return;
+
+
+        const key=
+            e.key.toLowerCase();
+
+
+        const pad=
+            document.querySelector(
+                `.pad[data-key="${key}"]`
+            );
+
+
+        if(pad){
+
+            hit(pad);
+
+        }
+
+    }
+);
+
+
+/* VOLUME CONNECTION */
+
+function connectVolume(
+    id,
+    type,
+    label
+){
+
+    const el=
+        document.getElementById(id);
+
+
+    el.addEventListener(
+        "input",
+        ()=>{
+
+            volumes[type]=
+                el.value/100;
+
+
+            document.getElementById(
+                label
+            ).textContent=
+                el.value+"%";
+
+        }
+    );
+
+}
+
+
+/* INDIVIDUAL VOLUME */
+
+connectVolume(
+    "kickVolume",
+    "kick",
+    "kickVol"
+);
+
+
+connectVolume(
+    "snareVolume",
+    "snare",
+    "snareVol"
+);
+
+
+connectVolume(
+    "hatVolume",
+    "hihat",
+    "hatVol"
+);
+
+
+/* BASS */
+
+document
+.getElementById("bass")
+.addEventListener(
+    "input",
+    e=>{
+
+        startAudio();
+
+
+        bassFilter.gain.value=
+            (e.target.value-50)*.36;
+
+
+        document.getElementById(
+            "bassVal"
+        ).textContent=
+            e.target.value+"%";
+
+    }
+);
+
+
+/* TREBLE */
+
+document
+.getElementById("treble")
+.addEventListener(
+    "input",
+    e=>{
+
+        startAudio();
+
+
+        trebleFilter.gain.value=
+            (e.target.value-50)*.36;
+
+
+        document.getElementById(
+            "trebleVal"
+        ).textContent=
+            e.target.value+"%";
+
+    }
+);
+
+
+/* MASTER */
+
+function setMaster(value){
+
+    startAudio();
+
+
+    masterGain.gain.value=
+        value/100;
+
+
+    document.getElementById(
+        "masterVal"
+    ).textContent=
+        value+"%";
+
+}
+
+
+/* MASTER SLIDERS */
+
+document
+.getElementById("master")
+.addEventListener(
+    "input",
+    e=>{
+
+        setMaster(
+            e.target.value
+        );
+
+
+        document.getElementById(
+            "masterSide"
+        ).value=
+            e.target.value;
+
+    }
+);
+
+
+document
+.getElementById("masterSide")
+.addEventListener(
+    "input",
+    e=>{
+
+        setMaster(
+            e.target.value
+        );
+
+
+        document.getElementById(
+            "master"
+        ).value=
+            e.target.value;
+
+    }
+);
+
+
+/* MIXER */
+
+document
+.querySelectorAll(".mix")
+.forEach(slider=>{
+
+    slider.addEventListener(
+        "input",
+        ()=>{
+
+            const type=
+                slider.dataset.type;
+
+
+            volumes[type]=
+                slider.value/100;
+
+        }
+    );
+
+});
+
+
+/* RESET */
+
+document
+.getElementById("reset")
+.addEventListener(
+    "click",
+    ()=>{
+
+        volumes.kick=.80;
+        volumes.snare=.75;
+        volumes.hihat=.70;
+
+        volumes.tom1=.70;
+        volumes.crash=.65;
+
+
+        document.getElementById(
+            "kickVolume"
+        ).value=80;
+
+
+        document.getElementById(
+            "snareVolume"
+        ).value=75;
+
+
+        document.getElementById(
+            "hatVolume"
+        ).value=70;
+
+
+        document.getElementById(
+            "bass"
+        ).value=50;
+
+
+        document.getElementById(
+            "treble"
+        ).value=50;
+
+
+        document.getElementById(
+            "master"
+        ).value=80;
+
+
+        document.getElementById(
+            "masterSide"
+        ).value=80;
+
+
+        document.getElementById(
+            "kickVol"
+        ).textContent="80%";
+
+
+        document.getElementById(
+            "snareVol"
+        ).textContent="75%";
+
+
+        document.getElementById(
+            "hatVol"
+        ).textContent="70%";
+
+
+        document.getElementById(
+            "bassVal"
+        ).textContent="50%";
+
+
+        document.getElementById(
+            "trebleVal"
+        ).textContent="50%";
+
+
+        document.getElementById(
+            "masterVal"
+        ).textContent="80%";
+
+
+        if(audio){
+
+            bassFilter.gain.value=0;
+
+            trebleFilter.gain.value=0;
+
+            masterGain.gain.value=.8;
+
+        }
+
+
+        document.getElementById(
+            "display"
+        ).textContent=
+            "READY • 120 BPM";
+
+    }
+);
+
+
+/* DEMO BEAT */
+
+const pattern=[
+
+    ["q","e"],
+    ["w","e"],
+    ["q","e"],
+    ["w","r"],
+
+    ["q","e"],
+    ["w","e"],
+    ["q","f"],
+    ["w","r"]
+
+];
+
+
+function demoBeat(){
+
+    if(demoTimer)return;
+
+
+    startAudio();
+
+
+    document.getElementById(
+        "display"
+    ).textContent=
+        "DEMO BEAT • 120 BPM";
+
+
+    demoTimer=
+        setInterval(
+            ()=>{
+
+                const keys=
+                    pattern[
+                        step%
+                        pattern.length
+                    ];
+
+
+                keys.forEach(
+                    key=>{
+
+                        const pad=
+                            document.querySelector(
+                                `.pad[data-key="${key}"]`
+                            );
+
+
+                        if(pad){
+
+                            hit(pad);
+
+                        }
+
+                    }
+                );
+
+
+                step++;
+
+            },
+            250
+        );
+
+}
+
+
+/* STOP */
+
+function stopBeat(){
+
+    clearInterval(
+        demoTimer
+    );
+
+
+    demoTimer=null;
+
+    step=0;
+
+
+    document.getElementById(
+        "display"
+    ).textContent=
+        "READY • 120 BPM";
+
+}
+
+
+document
+.getElementById("demo")
+.addEventListener(
+    "click",
+    demoBeat
+);
+
+
+document
+.getElementById("stop")
+.addEventListener(
+    "click",
+    stopBeat
+);
+
+</script>
+
+</body>
+</html>
